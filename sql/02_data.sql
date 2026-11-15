@@ -21,7 +21,7 @@ INSERT INTO members (id, name, email) VALUES
  (2, '石川 さくら', 'ishikawa@example.com'),
  (3, '上田 蓮',   'ueda@example.com');
 
--- 貸出データ（日付は起動日を基準に作成）
+-- 貸出データ（日付はこのSQLを実行した日を基準に作成）
 --  1: 延滞中（返却期限が6日前）
 --  2: 貸出中（期限内）
 --  3: 返却済み（履歴）
