@@ -45,7 +45,7 @@
 3. 同じように `sql/02_data.sql` を実行 → 初期データが入る
 4. 左の SCHEMAS で `library` を右クリック →「Refresh All」。books / members / loans が見えればOK
 
-`01_schema.sql` を開いて、どんなテーブル・列があるか読んでおきましょう。
+`01_schema.sql` か [`docs/テーブル定義書.md`](docs/テーブル定義書.md)（ER図付き）で、どんなテーブル・列があるか読んでおきましょう。
 `entity/` の Java クラスと見比べると、クラスとテーブルの対応がわかります。
 
 ### 2. Eclipse に取り込む
@@ -81,6 +81,8 @@ src/main/java/com/example/library
 ├── entity/       テーブルに対応するクラス
 ├── form/         画面の入力値を受け取るクラス
 └── exception/    業務エラーの例外
+docs/
+└── テーブル定義書.md         ER図・テーブル定義書
 sql/
 ├── 01_schema.sql            テーブル作成
 └── 02_data.sql              初期データ
