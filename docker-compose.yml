@@ -16,6 +16,8 @@ services:
       - "3306:3306"
     volumes:
       - library-mysql-data:/var/lib/mysql
+      # 初回起動時に sql/ の中のSQL（テーブル作成・初期データ）を自動で実行する
+      - ./sql:/docker-entrypoint-initdb.d
 
 volumes:
   library-mysql-data:

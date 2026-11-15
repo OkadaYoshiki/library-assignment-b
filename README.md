@@ -31,15 +31,22 @@
 
 ## セットアップ
 
-### 1. MySQL Workbench でデータベースを作る
+### 1. MySQL Workbench でデータベースとテーブルを作る
 
-Workbench で root として接続し、次の SQL を実行します。
+1. root で接続し、データベースとユーザーを作る（最初の1回だけ）
 
-```sql
-CREATE DATABASE library CHARACTER SET utf8mb4;
-CREATE USER 'library'@'localhost' IDENTIFIED BY 'library';
-GRANT ALL PRIVILEGES ON library.* TO 'library'@'localhost';
-```
+   ```sql
+   CREATE DATABASE library CHARACTER SET utf8mb4;
+   CREATE USER 'library'@'localhost' IDENTIFIED BY 'library';
+   GRANT ALL PRIVILEGES ON library.* TO 'library'@'localhost';
+   ```
+
+2. 「File → Open SQL Script」で `sql/01_schema.sql` を開いて ⚡（Execute）で実行 → テーブルができる
+3. 同じように `sql/02_data.sql` を実行 → 初期データが入る
+4. 左の SCHEMAS で `library` を右クリック →「Refresh All」。books / members / loans が見えればOK
+
+`01_schema.sql` を開いて、どんなテーブル・列があるか読んでおきましょう。
+`entity/` の Java クラスと見比べると、クラスとテーブルの対応がわかります。
 
 ### 2. Eclipse に取り込む
 
@@ -61,7 +68,7 @@ GRANT ALL PRIVILEGES ON library.* TO 'library'@'localhost';
 
 ### 注意
 
-- 起動するたびにテーブルが作り直され、初期データに戻ります（`application.properties` の `ddl-auto=create`）。
+- 画面で登録・削除したデータは残ります。最初の状態に戻したいときは `sql/01_schema.sql` → `sql/02_data.sql` の順にもう一度実行してください。
 - 未実装の機能の画面を開くと、エラー画面（404 や 500）になることがあります。実装すれば表示されるようになります。
 
 ## フォルダ構成
@@ -74,9 +81,11 @@ src/main/java/com/example/library
 ├── entity/       テーブルに対応するクラス
 ├── form/         画面の入力値を受け取るクラス
 └── exception/    業務エラーの例外
+sql/
+├── 01_schema.sql            テーブル作成
+└── 02_data.sql              初期データ
 src/main/resources
 ├── application.properties   DB接続などの設定
-├── data.sql                 初期データ
 └── templates/               画面（Thymeleaf）
 ```
 
