@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('貸出')}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+<main>
+    <h1>貸出</h1>
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <div class="card">
+        <form th:action="@{/loans/new}" th:object="${loanForm}" method="post">
+            <div class="field">
+                <label for="bookId">書籍（貸出可のもののみ）</label>
+                <select id="bookId" th:field="*{bookId}">
+                    <option value="">-- 選択してください --</option>
+                    <option th:each="book : ${books}" th:value="${book.id}"
+                            th:text="${book.title} + '（' + ${book.author} + '）'">書籍</option>
+                </select>
+                <div class="error" th:if="${#fields.hasErrors('bookId')}" th:errors="*{bookId}"></div>
+            </div>
+            <div class="field">
+                <label for="memberId">会員</label>
+                <select id="memberId" th:field="*{memberId}">
+                    <option value="">-- 選択してください --</option>
+                    <option th:each="member : ${members}" th:value="${member.id}"
+                            th:text="${member.name}">会員</option>
+                </select>
+                <div class="error" th:if="${#fields.hasErrors('memberId')}" th:errors="*{memberId}"></div>
+            </div>
+            <p>返却期限は貸出日から14日後です。1人3冊まで借りられます。</p>
+            <button type="submit" class="btn">貸し出す</button>
+            <a class="btn btn-sub" th:href="@{/loans}">戻る</a>
+        </form>
+    </div>
+</main>
+</body>
+</html>

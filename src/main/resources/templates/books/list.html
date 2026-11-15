@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('書籍一覧')}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+<main>
+    <h1>書籍一覧</h1>
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <div class="toolbar">
+        <!-- 機能②：検索フォーム -->
+        <form class="search" th:action="@{/books}" method="get">
+            <input type="text" name="keyword" th:value="${keyword}" placeholder="タイトル・著者で検索">
+            <button type="submit" class="btn">検索</button>
+            <a class="btn btn-sub" th:href="@{/books}">クリア</a>
+        </form>
+        <a class="btn" th:href="@{/books/new}">＋ 書籍登録</a>
+    </div>
+
+    <p th:if="${#lists.isEmpty(books)}">該当する書籍はありません。</p>
+
+    <table th:unless="${#lists.isEmpty(books)}">
+        <thead>
+        <tr>
+            <th>ID</th><th>タイトル</th><th>著者</th><th>ISBN</th><th>出版年</th><th>状態</th><th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.id}">1</td>
+            <td th:text="${book.title}">タイトル</td>
+            <td th:text="${book.author}">著者</td>
+            <td th:text="${book.isbn}">ISBN</td>
+            <td th:text="${book.publishedYear}">2024</td>
+            <td>
+                <span class="badge"
+                      th:classappend="${book.available} ? 'badge-ok' : 'badge-ng'"
+                      th:text="${book.status.label}">貸出可</span>
+            </td>
+            <td>
+                <a class="btn btn-sub" th:href="@{/books/{id}/edit(id=${book.id})}">編集</a>
+                <!-- 機能⑤：削除ボタン -->
+                <form class="inline" th:action="@{/books/{id}/delete(id=${book.id})}" method="post"
+                      onsubmit="return confirm('削除してよろしいですか？');">
+                    <button type="submit" class="btn btn-danger">削除</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

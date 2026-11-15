@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('貸出中一覧')}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+<main>
+    <h1>貸出中一覧</h1>
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <div class="toolbar">
+        <span th:text="'本日：' + ${#temporals.format(today, 'yyyy/MM/dd')}"></span>
+        <a class="btn" th:href="@{/loans/new}">＋ 貸出</a>
+    </div>
+
+    <p th:if="${#lists.isEmpty(loans)}">貸出中の書籍はありません。</p>
+
+    <table th:unless="${#lists.isEmpty(loans)}">
+        <thead>
+        <tr><th>貸出ID</th><th>書籍</th><th>会員</th><th>貸出日</th><th>返却期限</th><th>操作</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="loan : ${loans}" th:classappend="${loan.isOverdue(today)} ? 'overdue'">
+            <td th:text="${loan.id}">1</td>
+            <td th:text="${loan.book.title}">書籍</td>
+            <td th:text="${loan.member.name}">会員</td>
+            <td th:text="${#temporals.format(loan.loanDate, 'yyyy/MM/dd')}">貸出日</td>
+            <td>
+                <span th:text="${#temporals.format(loan.dueDate, 'yyyy/MM/dd')}">期限</span>
+                <span class="badge badge-ng" th:if="${loan.isOverdue(today)}">延滞</span>
+            </td>
+            <td>
+                <!-- 機能⑨：返却ボタン -->
+                <form class="inline" th:action="@{/loans/{id}/return(id=${loan.id})}" method="post">
+                    <button type="submit" class="btn">返却</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

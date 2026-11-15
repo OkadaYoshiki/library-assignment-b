@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('会員一覧')}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+<main>
+    <h1>会員一覧</h1>
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <div class="toolbar">
+        <span></span>
+        <a class="btn" th:href="@{/members/new}">＋ 会員登録</a>
+    </div>
+
+    <table>
+        <thead>
+        <tr><th>ID</th><th>氏名</th><th>メールアドレス</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="member : ${members}">
+            <td th:text="${member.id}">1</td>
+            <td th:text="${member.name}">氏名</td>
+            <td th:text="${member.email}">mail</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

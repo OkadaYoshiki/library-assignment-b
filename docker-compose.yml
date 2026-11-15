@@ -1,0 +1,21 @@
+# MySQL を Docker で起動する設定
+#   起動: docker compose up -d
+#   停止: docker compose down
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: library-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: library
+      MYSQL_USER: library
+      MYSQL_PASSWORD: library
+      TZ: Asia/Tokyo
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_ai_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - library-mysql-data:/var/lib/mysql
+
+volumes:
+  library-mysql-data:
